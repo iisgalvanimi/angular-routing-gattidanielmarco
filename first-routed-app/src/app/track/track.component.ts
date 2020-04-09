@@ -30,7 +30,6 @@ export class TrackComponent implements OnInit {
   {
     let trackId = params.get('id'); //Ottengo l'id dai parametri
     console.log (trackId); //Stampo su console
-    //spotifyServiceObs va dichiarato
     this.spotifyServiceObs = this.service.getTrack(trackId) ;
     this.spotifyServiceObs.subscribe((data)=>this.track = data)
   }

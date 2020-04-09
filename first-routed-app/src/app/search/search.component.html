@@ -34,7 +34,11 @@
             <div class="attribution">
               <h4>
                 <a [routerLink]="['/albums', t.album.id]">
-                  {{ t.album.name }}
+                  {{ t.album.name }} <br>
+
+                </a>
+                <a [routerLink]="['/albums', t.album.id]">
+                  ID: {{ t.album.id }}
                 </a>
               </h4>
             </div>
