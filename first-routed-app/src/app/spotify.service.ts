@@ -31,5 +31,13 @@ export class SpotifyService {
 
       return this.http.get(url, { headers });
   }
+  getAlbum(id: string) {
+    const url = `https://api.spotify.com/v1/albums/${id}`;
+    const headers = new HttpHeaders({
+      Authorization:
+        'Bearer BQCGnG-W49qoCBc9-bl4PA4SUCxmoJYuvHeWybmLtCMrhrIFj32aGOTcbGmI_r0InHg5yKWy6q3ZinoO97wAxEx5h5X4B2ek3-fIWvWFE35d1Jfn33xVz16l7QC8o4VLPxWCnKzpIW7BEOENRYkZyiurh8REf28'
+    });
 
+      return this.http.get(url, { headers });
+  }
 }
