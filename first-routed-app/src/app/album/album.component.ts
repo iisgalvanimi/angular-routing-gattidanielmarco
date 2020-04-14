@@ -1,33 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { SpotifyService } from '../spotify.service';
-
+import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
   styleUrls: ['./album.component.css']
 })
 export class AlbumComponent implements OnInit {
-  query: string;
-  obsTrack: Observable<Object>;
-  results: any;
-  constructor(public spotify: SpotifyService) { }
-  submit(query: HTMLInputElement): void {
+  routeObs: Observable<ParamMap>;
+  spotifyServiceObs: Observable<Object>;
+  album : any;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: SpotifyService,
+    private location: Location ) { }
 
-    if (!query.value) {
-      return;
-    }
-    this.query = query.value;
-    this.obsTrack = this.spotify.getAlbum(this.query);
-    this.obsTrack.subscribe((data) => { this.results = data; console.log(this.results) });
-  }
-  renderResults(res: any): void {
-    this.results = null;
-    if (res && res.album && res.album.items) {
-      this.results = res.album.items;
-    }
-  }
+
   ngOnInit(): void {
+    //Ottengo l'observable che notifica le informazioni sulla route attiva
+    this.routeObs = this.route.paramMap;
+    this.routeObs.subscribe(this.getRouterParam);
+  }
+
+  //Ogni volta che viene invocata la route tracks/:id, l'observable richiama questo metodo
+  getRouterParam = (params: ParamMap) =>
+  {
+    let albumId = params.get('id'); //Ottengo l'id dai parametri
+    console.log (albumId); //Stampo su console
+    this.spotifyServiceObs = this.service.getAlbum(albumId) ;
+    this.spotifyServiceObs.subscribe((data)=>this.album = data)
+  }
+
+  back(): void
+  {
+    this.location.back();
   }
 
 }
